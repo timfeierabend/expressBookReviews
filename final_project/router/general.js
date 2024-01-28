@@ -46,7 +46,10 @@ public_users.get('/author/:author',function (req, res) {
         let booksByAuthor = [];
         for (const key in books) {
             if(books[key].author.toLowerCase() === author.toLowerCase()) {
-                booksByAuthor.push(books[key]);
+                booksByAuthor.push({
+                    isbn: key,
+                    ...books[key]
+                });
             }
         }
         resolve({"books": booksByAuthor});
@@ -63,7 +66,10 @@ public_users.get('/title/:title',function (req, res) {
         let booksByTitle = [];
         for (const key in books) {
             if (books[key].title.toLowerCase() === title.toLowerCase()) {
-                booksByTitle.push(books[key]);
+                booksByTitle.push({
+                    isbn: key,
+                    ...books[key]
+                });
             }
         }
         resolve({"books": booksByTitle});
