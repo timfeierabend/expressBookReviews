@@ -20,37 +20,57 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-    res.send(JSON.stringify({"books": books}, null, 4));
+    let myPromise = new Promise((resolve, reject) => {
+        resolve({"books": books});
+    });
+    myPromise.then((data) => {
+        return res.send(data);
+    });
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
     const isbn = req.params.isbn;
-    res.send(books[isbn]);
+    let myPromise = new Promise((resolve, reject) => {
+        resolve(books[isbn]);
+    });
+    myPromise.then((data) => {
+        res.send(data);
+    });
  });
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
     const author = req.params.author;
-    let booksByAuthor = [];
-    for (const key in books) {
-        if(books[key].author.toLowerCase() === author.toLowerCase()) {
-            booksByAuthor.push(books[key]);
+    let myPromise = new Promise((resolve, reject) => {
+        let booksByAuthor = [];
+        for (const key in books) {
+            if(books[key].author.toLowerCase() === author.toLowerCase()) {
+                booksByAuthor.push(books[key]);
+            }
         }
-    }    
-    res.send({"books": booksByAuthor});
+        resolve({"books": booksByAuthor});
+    });
+    myPromise.then((data) => {
+        res.send(data);
+    });
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
     const title = req.params.title;
-    let booksByTitle = [];
-    for (const key in books) {
-        if (books[key].title.toLowerCase() === title.toLowerCase()) {
-            booksByTitle.push(books[key]);
+    let myPromise = new Promise((resolve, reject) => {
+        let booksByTitle = [];
+        for (const key in books) {
+            if (books[key].title.toLowerCase() === title.toLowerCase()) {
+                booksByTitle.push(books[key]);
+            }
         }
-    }
-    res.send({"books": booksByTitle});
+        resolve({"books": booksByTitle});
+    });
+    myPromise.then((data) => {
+        res.send(data);
+    });
 });
 
 //  Get book review
